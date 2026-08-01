@@ -1,0 +1,4 @@
+interface:
+  display_name: "Software Delivery Orchestrator"
+  short_description: "Coordinate complex builds, reviews, and verification"
+  default_prompt: "Use $orchestrate-dev to coordinate this software change through implementation, review, and verification."

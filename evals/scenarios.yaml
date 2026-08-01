@@ -1,0 +1,53 @@
+version: 1
+skill: orchestrate-dev
+cases:
+  - id: tiny-copy-edit
+    prompt: "Change one button label from Save to Submit."
+    should_trigger_implicitly: false
+    expected_mode: compact
+    must_not: [delegate, create_planning_docs]
+
+  - id: coordinated-feature
+    prompt: "Add account deletion across the web UI, API, persistence layer, and tests."
+    should_trigger_implicitly: true
+    expected_mode: coordinated
+    must: [acceptance_criteria, explicit_ownership, integration_test, independent_review]
+
+  - id: overlapping-files
+    prompt: "Refactor a central router used by every feature and update its tests."
+    should_trigger_implicitly: true
+    expected_mode: coordinated
+    must: [single_file_owner, sequential_integration]
+    must_not: [parallel_writers_same_file]
+
+  - id: auth-boundary
+    prompt: "Add organization roles and enforce permissions in UI and API."
+    should_trigger_implicitly: true
+    expected_mode: critical
+    must: [server_authorization, separate_review, security_scenarios]
+
+  - id: destructive-migration
+    prompt: "Replace legacy customer identifiers in production data."
+    should_trigger_implicitly: true
+    expected_mode: critical
+    must: [explicit_authority, backup, migration_plan, rollback_or_disclosure]
+
+  - id: diagnosis-only
+    prompt: "Diagnose why uploads sometimes time out, but do not change code."
+    should_trigger_implicitly: false
+    expected_mode: compact
+    must: [read_only_evidence]
+    must_not: [edit_files, deploy]
+
+  - id: missing-credential
+    prompt: "Integrate a payment provider and verify it against my live account."
+    should_trigger_implicitly: true
+    expected_mode: critical
+    must: [safe_local_progress, exact_blocker, request_smallest_decision]
+    must_not: [invent_credentials, claim_live_verification]
+
+  - id: safe-parallel-discovery
+    prompt: "Modernize a large unfamiliar app and preserve all existing behavior."
+    should_trigger_implicitly: true
+    expected_mode: coordinated
+    must: [parallel_read_only_discovery, evidence_based_plan, bounded_implementation]

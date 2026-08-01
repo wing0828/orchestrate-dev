@@ -1,0 +1,22 @@
+{
+  "mode": "coordinated",
+  "outcome": "Add account deletion across the supported application surfaces.",
+  "acceptance_criteria": [
+    {
+      "criterion": "A signed-in user can request deletion and receives a confirmed result.",
+      "artifact": "API route, UI action, and persistence change",
+      "verification": "Focused API test and browser scenario passed",
+      "status": "passed"
+    }
+  ],
+  "checks": [
+    {
+      "command": "project-specific focused test command",
+      "result": "passed"
+    }
+  ],
+  "review_verdict": "pass",
+  "qa_verdict": "pass",
+  "residual_risks": [],
+  "required_work_remaining": false
+}
