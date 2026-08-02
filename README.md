@@ -1,23 +1,22 @@
 # orchestrate-dev
 
-`orchestrate-dev` is a portable development-workflow skill for Codex and Claude Code. It coordinates complex software work through explicit product, architecture, implementation, review, and QA roles using the host agent's native capabilities.
+`orchestrate-dev`는 Codex와 Claude Code에서 복잡한 소프트웨어 작업을 체계적으로 진행하도록 돕는 개발 워크플로우 스킬입니다. 요구사항 정리, 구조 분석, 설계, 구현, 코드 리뷰, QA, 최종 검증을 하나의 흐름으로 연결합니다.
 
-## What it does
+## 주요 특징
 
-- Routes work into compact, coordinated, or critical delivery modes.
-- Defines clear ownership and output contracts for each role.
-- Separates implementation, review, and QA when risk warrants it.
-- Requires acceptance criteria, direct verification evidence, and a completion gate.
-- Includes scripts for evidence validation and installation drift checks.
+- 작업 규모와 위험도에 맞춰 진행 방식을 자동으로 조절합니다.
+- 구현 전 기존 코드와 요구사항을 먼저 확인합니다.
+- 역할별 책임과 파일 범위를 분명하게 나눕니다.
+- 실제 변경 내용과 테스트 결과를 기준으로 리뷰합니다.
+- 완료 조건마다 구현 결과와 검증 증거를 연결합니다.
+- Codex와 Claude Code가 제공하는 기능만 사용합니다.
 
-## Install
-
-Clone the repository, then copy or link the whole directory into your host's skills folder.
+## 설치
 
 ### Codex
 
 ```powershell
-git clone https://github.com/wing0828/orchestrate-dev.git "$HOME\.codex\skills\orchestrate-dev"
+git clone https://github.com/wing0828/orchestrate-dev.git "$HOME\.agents\skills\orchestrate-dev"
 ```
 
 ### Claude Code
@@ -26,27 +25,158 @@ git clone https://github.com/wing0828/orchestrate-dev.git "$HOME\.codex\skills\o
 git clone https://github.com/wing0828/orchestrate-dev.git "$HOME\.claude\skills\orchestrate-dev"
 ```
 
-Restart the host after installation if the skill is not detected immediately.
+설치 후 목록에 나타나지 않으면 새 대화를 열거나 프로그램을 다시 시작하세요.
 
-## Use
+## 사용법
 
-Ask the host to use the skill for a substantial software task. For example:
+작업할 프로젝트를 Codex 또는 Claude Code에서 연 다음, 스킬 이름과 원하는 결과를 함께 입력합니다.
 
-```text
-Use $orchestrate-dev to implement this feature, review the diff, and verify the user flow.
-```
-
-Delegation uses the capabilities supplied by Codex or Claude Code.
-
-## Repository layout
+### Codex에서 호출
 
 ```text
-SKILL.md                 Main workflow instructions
-agents/openai.yaml       Codex-facing metadata
-references/              Routing, role, verification, and gate guidance
-evals/                   Example scenarios and evidence
+$orchestrate-dev 회원가입과 이메일 로그인 기능을 구현해줘.
+기존 구조를 유지하고 코드 리뷰와 실제 동작 검증까지 진행해줘.
 ```
 
-## License
+Codex CLI나 IDE 확장에서는 `$`를 입력해 설치된 스킬을 선택할 수도 있습니다.
+
+### Claude Code에서 호출
+
+```text
+/orchestrate-dev 회원가입과 이메일 로그인 기능을 구현해줘.
+기존 구조를 유지하고 코드 리뷰와 실제 동작 검증까지 진행해줘.
+```
+
+Claude Code에서는 `/orchestrate-dev`를 직접 입력하거나 `/` 자동완성 목록에서 선택할 수 있습니다.
+
+### 자연어로 호출
+
+두 환경 모두 요청이 스킬 설명과 일치하면 자동으로 선택할 수 있습니다. 중요한 작업에서는 스킬 이름을 직접 적는 방식이 가장 확실합니다.
+
+```text
+이 기능을 요구사항 분석부터 구현, 리뷰, QA까지 체계적으로 진행해줘.
+```
+
+## 좋은 요청 작성법
+
+다음 내용을 함께 적으면 결과가 더 정확해집니다.
+
+1. 만들거나 변경할 결과
+2. 반드시 지켜야 할 기존 구조와 기술
+3. 사용자가 확인할 수 있는 완료 조건
+4. 변경하지 말아야 할 범위
+5. 원하는 테스트 또는 검증 방법
+
+예시:
+
+```text
+$orchestrate-dev 관리자용 주문 대시보드를 구현해줘.
+
+- 기존 Next.js와 Supabase 구조를 유지해.
+- 주문 검색, 상태 필터, 상세 조회가 가능해야 해.
+- 모바일 화면에서도 사용할 수 있어야 해.
+- 결제 처리 코드는 변경하지 마.
+- 구현 후 타입 검사, 테스트, 실제 화면 확인까지 진행해.
+```
+
+## 작업 방식
+
+| 방식 | 적합한 작업 | 진행 방법 |
+|---|---|---|
+| Compact | 작은 기능, 영향 범위가 좁은 수정 | 한 작업자가 분석부터 검증까지 순서대로 수행 |
+| Coordinated | 프론트엔드와 백엔드처럼 독립 영역이 있는 작업 | 영역별 책임을 나누고 결과를 통합 |
+| Critical | 인증, 결제, 데이터 이전, 배포 환경처럼 위험한 작업 | 구현, 독립 리뷰, QA를 분리하고 강화된 검증 적용 |
+
+여러 역할을 나누는 것이 도움이 되지 않거나 현재 환경에서 지원되지 않으면, 같은 품질 기준을 유지하면서 한 작업자가 역할을 순차적으로 수행합니다.
+
+## 만들어볼 수 있는 것
+
+### 웹 서비스와 SaaS
+
+- 회원가입, 로그인, 권한 관리
+- 관리자 대시보드와 통계 화면
+- 예약, 주문, 재고, 고객관리 서비스
+- 구독형 SaaS와 결제 연동
+- 반응형 랜딩 페이지와 사용자 화면
+
+### 백엔드와 데이터
+
+- REST 또는 GraphQL API
+- 데이터베이스 설계와 기존 스키마 변경
+- 검색, 필터, 알림, 파일 업로드 기능
+- 외부 서비스 연동과 웹훅 처리
+- 데이터 이전과 호환성 개선
+
+### AI 기능
+
+- 문서 검색과 질의응답 서비스
+- 고객 상담 챗봇
+- 콘텐츠 생성과 검토 흐름
+- 분류, 요약, 추천 기능
+- 기존 서비스에 AI 기능 추가
+
+### 앱과 업무 시스템
+
+- 모바일 앱 기능
+- 데스크톱 애플리케이션
+- 사내 관리 시스템
+- 반복 업무 자동화
+- 보고서와 승인 흐름
+
+### 기존 프로젝트 개선
+
+- 오류 원인 분석과 수정
+- 느린 화면과 API 성능 개선
+- 오래된 구조 리팩터링
+- 프레임워크와 라이브러리 업그레이드
+- 테스트 추가와 배포 안정성 개선
+- 보안, 권한, 입력 검증 강화
+
+## 추천 실습
+
+처음 사용할 때는 실제 서비스보다 연습용 프로젝트나 별도 Git 브랜치에서 시작하는 것이 좋습니다.
+
+```text
+$orchestrate-dev 간단한 할 일 관리 웹앱을 만들어줘.
+
+- 할 일 추가, 수정, 완료, 삭제를 지원해.
+- 새로고침 후에도 데이터가 유지되어야 해.
+- 모바일 화면을 지원해.
+- 구현, 코드 리뷰, 사용자 시나리오 검증까지 완료해.
+```
+
+Claude Code에서는 첫 줄의 `$orchestrate-dev`를 `/orchestrate-dev`로 바꾸면 됩니다.
+
+## 적합하지 않은 작업
+
+다음 작업은 일반 요청으로 처리하는 편이 더 빠릅니다.
+
+- 단순한 개념 설명이나 질문
+- 코드 변경이 없는 조사와 요약
+- 한 줄짜리 문구 또는 설정값 수정
+- 구현 권한 없이 원인 분석만 필요한 경우
+
+## 완료 결과
+
+작업이 끝나면 다음 내용을 중심으로 결과를 전달합니다.
+
+- 구현된 사용자 동작
+- 변경된 핵심 파일과 구성요소
+- 실행한 테스트와 관찰 결과
+- 코드 리뷰와 QA에서 발견하고 수정한 문제
+- 확인하지 못한 부분과 남은 위험
+
+커밋, 푸시, 배포, 외부 메시지 전송, 데이터 삭제처럼 별도 권한이 필요한 작업은 사용자가 요청하거나 허용한 범위에서만 수행합니다.
+
+## 구성
+
+```text
+SKILL.md                 핵심 워크플로우
+agents/openai.yaml       Codex 표시 정보
+references/              작업 분류, 역할, 검증, 품질 기준
+evals/                   예시 시나리오와 완료 증거
+```
+
+## 라이선스
 
 [MIT](LICENSE)
