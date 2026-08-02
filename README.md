@@ -1,6 +1,6 @@
 # orchestrate-dev
 
-`orchestrate-dev` is a portable development-workflow skill for Codex and Claude Code. It coordinates complex software work through explicit product, architecture, implementation, review, and QA roles while using the host agent's native capabilities; no MetaGPT runtime or separate model API is required.
+`orchestrate-dev` is a portable development-workflow skill for Codex and Claude Code. It coordinates complex software work through explicit product, architecture, implementation, review, and QA roles using the host agent's native capabilities.
 
 ## What it does
 
@@ -36,23 +36,7 @@ Ask the host to use the skill for a substantial software task. For example:
 Use $orchestrate-dev to implement this feature, review the diff, and verify the user flow.
 ```
 
-The skill deliberately avoids external agent frameworks. Delegation happens only through the capabilities supplied by Codex or Claude Code.
-
-## Included tooling
-
-Validate a completion-evidence record:
-
-```powershell
-python scripts/validate_evidence.py evals/sample-evidence.json
-```
-
-Check whether installed copies match the source directory:
-
-```powershell
-python scripts/sync_install.py --check
-```
-
-Run `python scripts/sync_install.py --help` for installation and synchronization options.
+Delegation uses the capabilities supplied by Codex or Claude Code.
 
 ## Repository layout
 
@@ -60,7 +44,6 @@ Run `python scripts/sync_install.py --help` for installation and synchronization
 SKILL.md                 Main workflow instructions
 agents/openai.yaml       Codex-facing metadata
 references/              Routing, role, verification, and gate guidance
-scripts/                 Evidence validation and installation sync utilities
 evals/                   Example scenarios and evidence
 ```
 
