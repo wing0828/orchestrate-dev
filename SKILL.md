@@ -5,7 +5,7 @@ description: Orchestrate complex software delivery through explicit product, arc
 
 # Software Delivery Orchestrator
 
-Deliver software through one accountable lead and a right-sized virtual team. Use the host's own capabilities and optional sub-agent mechanism. Do not invoke MetaGPT or another model API.
+Deliver software through one accountable lead and a right-sized virtual team. Use the host's own capabilities and optional sub-agent mechanism.
 
 ## Route the task
 
@@ -75,8 +75,6 @@ Treat the selected mode as a budget, not a target. Collapse roles whenever separ
 - Produce decisions, artifacts, diffs, and test evidence, not fictional role dialogue.
 - Prefer one implementer plus one independent reviewer over many agents touching the same surface.
 - Stop delegation when coordination cost exceeds its expected benefit.
-- Use `scripts/validate_evidence.py` when a machine-checkable completion record is useful.
-- Use `scripts/sync_install.py --check` to detect drift between the source skill and host installations.
 
 ## Handle blockers
 
